@@ -32,21 +32,28 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
-         if(request.getParameter("logout")!=null)
-        {
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("user");
-            user.setLogout(true);
-            
-            session.invalidate();
-            response.sendRedirect("login");
-        }
-         else
-         {    
-         getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
-         }
+
         
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if(user==null)
+        {
+            user = new User();
+        }
+
+        
+        if (user.getName()==null || user.getName().equals("")) 
+        {
+            response.sendRedirect("login");
+     
+        } 
+        else 
+        {
+            // Already created           
+            getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
+
+        }
+   
     }
 
     /**

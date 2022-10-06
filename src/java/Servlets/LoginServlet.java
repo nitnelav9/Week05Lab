@@ -35,7 +35,33 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         
    
-                getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        
+        User user = (User) session.getAttribute("user");
+        if(user==null)
+        {
+            user = new User();
+        }
+        
+        
+        if (user.getName()==null || user.getName().equals(""))
+        {
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+           
+     
+        } 
+        else if(request.getParameter("logout")!=null)
+        {
+            session.invalidate();
+            request.setAttribute("message", "You have successfully logged out.");
+            getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            
+        }
+        else 
+        {
+            // Already created.            
+            response.sendRedirect("home");
+        }
             
         
     }
@@ -75,11 +101,7 @@ public class LoginServlet extends HttpServlet {
         
         if(user!=null)
         {
-            //HttpSession session = request.getSession();
-            //User user = (User) session.getAttribute("user");
-          
             HttpSession session = request.getSession();
-            session = request.getSession();
             session.setAttribute("user",user);
          
             response.sendRedirect("home");
@@ -89,7 +111,6 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("message", "Invalid entry. Username or Passworwd not correct.");
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp")
                     .forward(request, response);
-            return;
         }
         
      
