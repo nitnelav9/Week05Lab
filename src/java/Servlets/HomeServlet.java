@@ -33,7 +33,7 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        
+        //Check ig the usernameexist
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if(user==null)
