@@ -12,8 +12,10 @@
         <title>Welcome Page</title>
     </head>
     <body>
-        <h1>Home Page</h1>
-        <h2>Hello ${user.name}</h2>
-        <a href="">logout</a>
+        <form method="get" action="home">
+            <h1>Home Page</h1>
+            <h2>Hello ${user.name}</h2>
+        <a href="home?logout">logout</a>
+        </form>
     </body>
 </html>
